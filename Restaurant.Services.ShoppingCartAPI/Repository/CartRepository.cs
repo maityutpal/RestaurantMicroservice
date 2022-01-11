@@ -41,7 +41,8 @@ namespace Restaurant.Services.ShoppingCartAPI.Repository
 
 
             //check if header is null
-            var cartHeaderFromDb = await _db.CartHeaders.AsNoTracking()
+            var cartHeaderFromDb = await _db.CartHeaders
+                //AsNoTracking()
                 .FirstOrDefaultAsync(u => u.UserId == cart.CartHeader.UserId);
 
             if (cartHeaderFromDb == null)
@@ -58,7 +59,9 @@ namespace Restaurant.Services.ShoppingCartAPI.Repository
             {
                 //if header is not null
                 //check if details has same product
-                var cartDetailsFromDb = await _db.CartDetails.AsNoTracking().FirstOrDefaultAsync(
+                var cartDetailsFromDb = await _db.CartDetails
+                    //.AsNoTracking()
+                    .FirstOrDefaultAsync(
                     u => u.ProductId == cart.CartDetails.FirstOrDefault().ProductId &&
                     u.CartHeaderId == cartHeaderFromDb.CartHeaderId);
 

@@ -2,9 +2,8 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Restaurant.Services.ShoppingCartAPI;
-using Restaurant.Services.ShoppingCartAPI.DbContexts;
-using Restaurant.Services.ShoppingCartAPI.Repository;
+using Restaurant.Services.Coupon.API;
+using Restaurant.Services.Coupon.API.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
 builder.Services.AddSingleton(mapper);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddScoped<ICartRepository,CartRepository>();
+//builder.Services.AddScoped<ICartRepository, CartRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -45,7 +44,7 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant.Services.ShoppingCartAPI", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Restaurant.Services.CouponAPI", Version = "v1" });
     c.EnableAnnotations();
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
