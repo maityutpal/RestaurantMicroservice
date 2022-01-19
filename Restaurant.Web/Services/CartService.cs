@@ -23,14 +23,26 @@ namespace Restaurant.Web.Services
             });
         }
 
-        public Task<T> ApplyCoupon<T>(CartDto cartDto, string token = null)
+        public async Task<T> ApplyCoupon<T>(CartDto cartDto, string token = null)
         {
-            throw new NotImplementedException();
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = ConfigConstants.ApiType.POST,
+                Data = cartDto,
+                Url = ConfigConstants.ShoppingCartAPIBase + "/api/cart/ApplyCoupon",
+                AccessToken = token
+            });
         }
 
-        public Task<T> Checkout<T>(CartHeaderDto cartHeader, string token = null)
+        public async Task<T> Checkout<T>(CartHeaderDto cartHeader, string token = null)
         {
-            throw new NotImplementedException();
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = ConfigConstants.ApiType.POST,
+                Data = cartHeader,
+                Url = ConfigConstants.ShoppingCartAPIBase + "/api/cart/checkout",
+                AccessToken = token
+            });
         }
 
         public async Task<T> GetCartByUserIdAsnyc<T>(string userId, string token = null)
@@ -43,9 +55,15 @@ namespace Restaurant.Web.Services
             });
         }
 
-        public Task<T> RemoveCoupon<T>(string userId, string token = null)
+        public async Task<T> RemoveCoupon<T>(string userId, string token = null)
         {
-            throw new NotImplementedException();
+            return await this.SendAsync<T>(new ApiRequest()
+            {
+                ApiType = ConfigConstants.ApiType.POST,
+                Data = userId,
+                Url = ConfigConstants.ShoppingCartAPIBase + "/api/cart/RemoveCoupon",
+                AccessToken = token
+            });
         }
 
         public async Task<T> RemoveFromCartAsync<T>(int cartId, string token = null)
