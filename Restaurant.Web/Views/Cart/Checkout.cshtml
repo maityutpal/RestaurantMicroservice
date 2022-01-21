@@ -78,7 +78,7 @@
 
                             <hr />
 
-                            @foreach(var cartObj in Model.CartDetails){
+                            @*@foreach(var cartObj in Model.CartDetails){
 
                             <div class="row h-100">
                                 <div class="col-6">
@@ -91,6 +91,26 @@
                                 </div>
                                 <div class="col-3" style="font-size:11px;">
                                     <span style="font-size:17px;"> @cartObj.Count</span>
+                                </div>
+                            </div>
+                            <hr />
+                            }*@
+                            @for (var i = 0; i < Model.CartDetails.Count; i++)
+                            {
+                                <input asp-for="@Model.CartDetails[i].CartDetailsId" hidden />
+                                <input asp-for="@Model.CartDetails[i].CartHeaderId" hidden />
+                                <input asp-for="@Model.CartDetails[i].ProductId" hidden />
+                                 <div class="row h-100">
+                                <div class="col-6">
+                                    <span style="font-size:20px">@Model.CartDetails[i].Product.Name</span>
+                                </div>
+
+                                <div class="col-3" style="font-size:11px;">
+                                    <span style="font-size:17px;"> $@Model.CartDetails[i].Product.Price</span>
+
+                                </div>
+                                <div class="col-3" style="font-size:11px;">
+                                    <span style="font-size:17px;"> @Model.CartDetails[i].Count</span>
                                 </div>
                             </div>
                             <hr />

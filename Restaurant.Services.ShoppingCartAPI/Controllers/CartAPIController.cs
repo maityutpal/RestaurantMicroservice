@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Restaurant.MessageBus;
+using Restaurant.Services.ShoppingCartAPI.Messages;
 using Restaurant.Services.ShoppingCartAPI.Models.DTO;
 using Restaurant.Services.ShoppingCartAPI.Repository;
 
@@ -10,10 +12,12 @@ namespace Restaurant.Services.ShoppingCartAPI.Controllers
     {
         private readonly ICartRepository _cartRepository;
         protected ResponseDto _response;
-        public CartAPIController(ICartRepository cartRepository)
+        private readonly IMessageBus _messageBus;
+        public CartAPIController(ICartRepository cartRepository, IMessageBus messageBus)
         {
             _cartRepository = cartRepository;
             this._response = new ResponseDto();
+            _messageBus = messageBus;
         }
         [HttpGet("GetCart/{userId}")]
         public async Task<object> GetCart(string userId)
@@ -135,7 +139,7 @@ namespace Restaurant.Services.ShoppingCartAPI.Controllers
 
                 checkoutHeader.CartDetails = cartDto.CartDetails;
                 //logic to add message to process order.
-                //await _messageBus.PublishMessage(checkoutHeader, "checkoutqueue");
+                await _messageBus.PublishMessage(checkoutHeader, "checkoutmessagetopic");
 
                 ////rabbitMQ
                 //_rabbitMQCartMessageSender.SendMessage(checkoutHeader, "checkoutqueue");
