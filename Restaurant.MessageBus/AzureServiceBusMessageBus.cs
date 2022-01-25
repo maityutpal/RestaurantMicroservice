@@ -10,8 +10,8 @@ namespace Restaurant.MessageBus
 {
     public class AzureServiceBusMessageBus:IMessageBus
     {
-        
-        private string connectionString = "Endpoint=sb://XXXXXXXXXX.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=6CDIGhKMnlYGTyaFFJQDa+hHXXXXXPksVVgzQYWA8oWCdiU=";
+
+        private string connectionString = "Endpoint=sb://xxxtapp.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=XXXXXXXXXGggt4554554PHyaJQDa+hHCQPksVVgzQYWA8oWCdiU=";
 
         public async Task PublishMessage(BaseMessage message, string topicName)
         {

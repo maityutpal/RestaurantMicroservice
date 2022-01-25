@@ -2,8 +2,12 @@ using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Restaurant.MessageBus;
 using Restaurant.Services.OrderAPI;
 using Restaurant.Services.OrderAPI.DbContexts;
+using Restaurant.Services.OrderAPI.Extension;
+using Restaurant.Services.OrderAPI.Messaging;
+using Restaurant.Services.OrderAPI.RabbitMQSender;
 using Restaurant.Services.OrderAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +30,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlSer
 var optionBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 optionBuilder.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 builder.Services.AddSingleton(new OrderRepository(optionBuilder.Options));
+builder.Services.AddSingleton<IAzureServiceBusConsumer, AzureServiceBusConsumer>();
+builder.Services.AddSingleton<IMessageBus, AzureServiceBusMessageBus>();
+builder.Services.AddHostedService<RabbitMQCheckoutConsumer>();
+builder.Services.AddHostedService<RabbitMQPaymentConsumer>();
+builder.Services.AddSingleton<IRabbitMQOrderMessageSender, RabbitMQOrderMessageSender>();
 
 builder.Services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
@@ -47,6 +56,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "restaurant");
     });
 });
+
 
 builder.Services.AddSwaggerGen(c =>
 {
@@ -93,5 +103,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+app.UseAzureServiceBusConsumer();
 
 app.Run();

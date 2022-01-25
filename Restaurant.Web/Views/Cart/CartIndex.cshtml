@@ -38,24 +38,27 @@
                 </div>
 
                 <hr />
-                @foreach (var cartObj in Model.CartDetails)
+                @for (var i = 0; i < Model.CartDetails.Count; i++)
                 {
+                    <input asp-for="@Model.CartDetails[i].CartDetailsId" hidden />
+                    <input asp-for="@Model.CartDetails[i].CartHeaderId" hidden />
+                    <input asp-for="@Model.CartDetails[i].ProductId" hidden />
                 <div class="row h-100">
                     <div class="col-4 col-md-2 text-center py-2">
-                        <img src="@cartObj.Product.ImageUrl" class="rounded" width="100%" />
+                        <img src="@Model.CartDetails[i].Product.ImageUrl" class="rounded" width="100%" />
                     </div>
                     <div class="col-8 col-md-5">
-                        <h5>@cartObj.Product.Name</h5>
-                        <div style="font-size:11px;">@Html.Raw(cartObj.Product.Description)</div>
+                        <h5>@Model.CartDetails[i].Product.Name</h5>
+                        <div style="font-size:11px;">@Html.Raw(Model.CartDetails[i].Product.Description)</div>
                     </div>
                     <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
-                        <span style="font-size:17px;">@string.Format("{0:c}",cartObj.Product.Price) </span>
+                        <span style="font-size:17px;">@string.Format("{0:c}",Model.CartDetails[i].Product.Price) </span>
                     </div>
                     <div class="col-3 col-md-2 pt-md-4" style="font-size:11px;">
-                        <span style="font-size:17px;"> @cartObj.Count</span>
+                        <span style="font-size:17px;"> @Model.CartDetails[i].Count</span>
                     </div>
                     <div class="col-2 col-lg-1 p-0 pt-lg-4 text-center">
-                        <a asp-action="Remove" asp-route-cartDetailsId="@cartObj.CartDetailsId" class="btn btn-outline-danger">
+                        <a asp-action="Remove" asp-route-cartDetailsId="@Model.CartDetails[i].CartDetailsId" class="btn btn-outline-danger">
                             <i class="fas fa-trash"></i>
                         </a>
                     </div>
